@@ -1,0 +1,240 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Categories {
+  id     Int      @id @default(autoincrement())
+  title  String   @unique
+  comics Comics[]
+}
+
+model Authors {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  keywords    String
+  comics      Comics[]
+}
+
+model Comics {
+  id           Int            @id @default(autoincrement())
+  title        String         @unique
+  description  String
+  image        String
+  keywords     String
+  status       String
+  price        Decimal
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  categories   Categories[]
+  authors      Authors[]
+  volumes      Volumes[]
+  favorites    Favorites[]
+  rates        Rates[]
+  views        Views[]
+  comment      Comments[]
+  unlock_comic Unlock_comic[]
+  userId       Int
+  user         Users          @relation(fields: [userId], references: [id])
+}
+
+model Volumes {
+  id            Int             @id @default(autoincrement())
+  title         String
+  description   String
+  price         Decimal
+  comicId       Int
+  comic         Comics          @relation(fields: [comicId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  chapters      Chapters[]
+  unlock_volume Unlock_volume[]
+}
+
+model Chapters {
+  id             Int              @id @default(autoincrement())
+  title          String
+  filePath       String
+  content        String
+  price          Decimal
+  lock           Boolean
+  volumeId       Int
+  volume         Volumes          @relation(fields: [volumeId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  errors         Errors[]
+  views          Views[]
+  coments        Comments[]
+  unlock_chapter Unlock_chapter[]
+}
+
+model Roles {
+  id          Int     @id @default(autoincrement())
+  title       String  @unique
+  description String
+  users       Users[]
+}
+
+model Users {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  email          String           @unique
+  password       String
+  description    String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  isDisabled     Boolean
+  comics         Comics[]
+  userRole       Roles[]
+  favorites      Favorites[]
+  rates          Rates[]
+  errors         Errors[]
+  views          Views[]
+  coments        Comments[]
+  notifications  Notifications[]
+  wallets        Wallets?
+  unlock_comic   Unlock_comic[]
+  unlock_volume  Unlock_volume[]
+  unlock_chapter Unlock_chapter[]
+}
+
+model Favorites {
+  userId  Int
+  user    Users    @relation(fields: [userId], references: [id])
+  comicId Int
+  comic   Comics   @relation(fields: [comicId], references: [id])
+  addedAt DateTime @default(now())
+
+  @@id([userId, comicId])
+}
+
+model Rates {
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
+  comicId   Int
+  comic     Comics   @relation(fields: [comicId], references: [id])
+  score     Float    @default(10)
+  content   String
+  createdAt DateTime @default(now())
+
+  @@id([userId, comicId])
+}
+
+model Errors {
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
+  chapterId Int
+  chapter   Chapters @relation(fields: [chapterId], references: [id])
+  content   String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, chapterId])
+}
+
+model Views {
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
+  comicId   Int
+  comic     Comics   @relation(fields: [comicId], references: [id])
+  chapterId Int
+  chapter   Chapters @relation(fields: [chapterId], references: [id])
+  lastedAt  DateTime @default(now())
+
+  @@id([userId, comicId])
+}
+
+model Comments {
+  id           Int             @id @default(autoincrement())
+  content      String
+  userId       Int
+  user         Users           @relation(fields: [userId], references: [id])
+  chapterId    Int?
+  chapter      Chapters?       @relation(fields: [chapterId], references: [id])
+  comicId      Int
+  comic        Comics          @relation(fields: [comicId], references: [id])
+  createdAt    DateTime        @default(now())
+  notification Notifications[]
+}
+
+model Notifications {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      Users     @relation(fields: [userId], references: [id])
+  commentId Int?
+  comment   Comments? @relation(fields: [commentId], references: [id])
+  content   String
+  isRead    Boolean
+  createdAt DateTime  @default(now())
+}
+
+model Wallets {
+  id           Int            @id @default(autoincrement())
+  userId       Int            @unique
+  user         Users          @relation(fields: [userId], references: [id])
+  value        Decimal
+  updatedAt    DateTime       @updatedAt
+  transactions Transactions[]
+}
+
+model Transactions {
+  id             Int              @id @default(autoincrement())
+  walletId       Int
+  wallet         Wallets          @relation(fields: [walletId], references: [id])
+  amount         Decimal
+  description    String
+  status         String
+  createdAt      DateTime         @default(now())
+  unlock_comic   Unlock_comic[]
+  unlock_volume  Unlock_volume[]
+  unlock_chapter Unlock_chapter[]
+}
+
+model Unlock_comic {
+  userId        Int
+  user          Users        @relation(fields: [userId], references: [id])
+  comicId       Int
+  comic         Comics       @relation(fields: [comicId], references: [id])
+  transactionId Int
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime     @default(now())
+
+  @@id([userId, comicId, transactionId])
+}
+
+model Unlock_volume {
+  userId        Int
+  user          Users        @relation(fields: [userId], references: [id])
+  volumeId      Int
+  volume        Volumes      @relation(fields: [volumeId], references: [id])
+  transactionId Int
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime     @default(now())
+
+  @@id([userId, volumeId, transactionId])
+}
+
+model Unlock_chapter {
+  userId        Int
+  user          Users        @relation(fields: [userId], references: [id])
+  chapterId     Int
+  chapter       Chapters     @relation(fields: [chapterId], references: [id])
+  transactionId Int
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime     @default(now())
+
+  @@id([userId, chapterId, transactionId])
+}
