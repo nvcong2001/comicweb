@@ -22,7 +22,9 @@ const SidebarMenuAccordionItem = ({
     <div>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>{title}</AccordionTrigger>
+          <AccordionTrigger>
+            <Icon size={20} /> {title}
+          </AccordionTrigger>
           <AccordionContent>
             {/* Dung vong lap in cac menu item */}
             {children.map((menuItem) => (

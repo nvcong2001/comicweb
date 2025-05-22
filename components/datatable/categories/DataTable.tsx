@@ -2,7 +2,6 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -10,22 +9,29 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const DataTable = ({ data }) => {
+export interface Category {
+  id: number;
+  title: string;
+}
+
+const DataTable = ({ data }: { data: Category[] }) => {
   return (
     <div>
       <Table>
-        <TableCaption>CATEGORIES</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-10">Chọn</TableHead>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead className="text-right">Button</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((item) => (
             <TableRow key={item.id}>
+              <TableCell>
+                <input type="checkbox" />
+              </TableCell>
               <TableCell>{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
             </TableRow>

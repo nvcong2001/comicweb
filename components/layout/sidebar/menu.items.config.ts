@@ -1,32 +1,41 @@
-import { CakeSlice, Calendar, Camera, CandyOff } from "lucide-react";
+import {
+  BookA,
+  BookText,
+  BookType,
+  BookUser,
+  ChartPie,
+  LibraryBig,
+  ListCollapse,
+} from "lucide-react";
 
 type SidebarMenuItem = {
   title: string;
   icon: React.ElementType;
   href?: string;
   children?: [] | any[];
+  isActive?: boolean;
 };
 
 export const menuItems: SidebarMenuItem[] = [
-  {
-    title: "Dashboard",
-    icon: Camera,
-    href: "/dashboard",
-  },
+  { title: "Dashboard", icon: LibraryBig, href: "/dashboard" },
   {
     title: "Danh  mục",
-    icon: CakeSlice,
+    icon: ListCollapse,
     children: [
-      { title: "Loại nhà", icon: Calendar, href: "/dashboard/loainha" },
-      { title: "Nhà", icon: CandyOff, href: "/dashboard/nha" },
+      { title: "Thể loại", icon: BookType, href: "/dashboard/categories" },
+      { title: "Truyện", icon: BookText, href: "/dashboard/comics" },
+      { title: "Người dùng", icon: BookUser, href: "/dashboard/users" },
+      { title: "Tác giả", icon: BookA, href: "/dashboard/authors" },
     ],
   },
   {
     title: "Thống kê",
-    icon: CakeSlice,
+    icon: ChartPie,
     children: [
-      { title: "TK loai nha", icon: Calendar, href: "/dashboard/loainha" },
-      { title: "TK nhà vip", icon: CandyOff, href: "/dashboard/nha" },
+      { title: "TK loai nha", icon: BookType, href: "/dashboard/categories" },
+      { title: "TK Truyện", icon: BookText, href: "/dashboard/comics" },
+      { title: "TK Người dùng", icon: BookUser, href: "/dashboard/users" },
+      { title: "TK Tác giả", icon: BookA, href: "/dashboard/authors" },
     ],
   },
 ];
