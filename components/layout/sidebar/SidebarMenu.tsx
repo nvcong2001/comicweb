@@ -3,17 +3,18 @@ import { menuItems } from "./menu.items.config";
 import SidebarMenuAccordionItem from "./SidebarMenuAccordionItem";
 import SidebarMenuItem from "./SidebarMenuItem";
 
-const Sidebar = () => {
+const SidebarMenu = () => {
   return (
-    <div className="min-w-[200px] px-2">
+    <div className="min-w-[200px]">
       {menuItems.map((item) =>
         item.children ? (
           <SidebarMenuAccordionItem
             icon={item.icon}
             title={item.title}
             key={item.title}
-            children={item.children}
-          />
+          >
+            {item.children}
+          </SidebarMenuAccordionItem>
         ) : (
           <SidebarMenuItem
             icon={item.icon}
@@ -27,4 +28,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarMenu;

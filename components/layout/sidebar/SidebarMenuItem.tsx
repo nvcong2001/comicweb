@@ -9,7 +9,7 @@ interface MenuItemProps {
 
 const SidebarMenuItem = ({ title, icon: Icon, href }: MenuItemProps) => {
   return (
-    <Link href={href} className="flex p-2 rounded hover:bg-amber-500">
+    <Link href={href} className="flex p-2 rounded hover:bg-stone-500">
       <Icon size={20} />
       <div className="ml-4">{title}</div>
     </Link>

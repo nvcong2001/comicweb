@@ -1,24 +1,24 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DataTable from "@/components/datatable/DataTable";
-import { columns, Comic } from "@/components/datatable/comics/Column";
+import { columns, Author } from "@/components/datatable/authors/Column";
 import Pagination from "@/components/Pagination";
 
-const ComicsDashboard = () => {
-  const [comics, setComics] = useState<Comic[]>([]);
+const AuthorsDashboard = () => {
+  const [authors, setAuthors] = useState<Author[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [rowsPerPage, setRowsPerPage] = useState<number | "all">(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchComics = async () => {
+  const fetchAuthors = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/comics");
+      const res = await fetch("http://localhost:3000/api/authors");
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
-      setComics(data.comics);
+      setAuthors(data.authors);
     } catch (err: any) {
       setError(err.message || "Có lỗi xảy ra");
     } finally {
@@ -26,7 +26,7 @@ const ComicsDashboard = () => {
     }
   };
   useEffect(() => {
-    fetchComics();
+    fetchAuthors();
   }, []);
 
   if (loading) {
@@ -46,25 +46,25 @@ const ComicsDashboard = () => {
   const totalPages =
     rowsPerPage === "all"
       ? 1
-      : Math.ceil(comics.length / (rowsPerPage as number));
+      : Math.ceil(authors.length / (rowsPerPage as number));
   const startIndex =
     rowsPerPage === "all" ? 0 : (currentPage - 1) * (rowsPerPage as number);
   const endIndex =
     rowsPerPage === "all"
-      ? comics.length
-      : Math.min(startIndex + (rowsPerPage as number), comics.length);
-  const currentData = comics.slice(startIndex, endIndex);
+      ? authors.length
+      : Math.min(startIndex + (rowsPerPage as number), authors.length);
+  const currentData = authors.slice(startIndex, endIndex);
 
   return (
     <div>
       <div>
-        <h2 className="text-lg font-bold mb-4">TRUYỆN</h2>
+        <h2 className="text-lg font-bold mb-4">TÁC GIẢ</h2>
       </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="">
           <input
             type="text"
-            placeholder="Tìm kiếm truyện..."
+            placeholder="Tìm kiếm tác giả..."
             className="w-full border p-2 rounded"
           />
         </div>
@@ -78,7 +78,7 @@ const ComicsDashboard = () => {
               )
             }
             value={
-              rowsPerPage === comics.length ? "all" : rowsPerPage.toString()
+              rowsPerPage === authors.length ? "all" : rowsPerPage.toString()
             }
           >
             <option value="1">1</option>
@@ -98,4 +98,4 @@ const ComicsDashboard = () => {
   );
 };
 
-export default ComicsDashboard;
+export default AuthorsDashboard;
