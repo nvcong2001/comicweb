@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
 import DataTable from "@/components/datatable/DataTable";
-import { columns } from "@/components/datatable/categories/Column";
+import { columns } from "@/components/datatable/authors/Column";
 import Pagination from "@/components/Pagination";
 import useQuery from "@/app/hooks/useQuery";
 import useFetchList from "@/app/hooks/useFetchData";
+import ModalAddNew from "@/components/dashboard/ModalAddNew";
 import {
   Select,
   SelectContent,
@@ -12,18 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ModalAddNew from "@/components/dashboard/ModalAddNew";
 
-const CategoriesDashboard = () => {
-  const pathname = "/categories";
-  const schema = { title: { label: "Tên thể loại", type: "text" } };
+const AuthorsDashboard = () => {
+  const pathname = "/authors";
+  const schema = {
+    name: { label: "Tên tác giả", type: "text" },
+    description: { label: "Mô tả", type: "text" },
+    keywords: { label: "Từ khóa", type: "text" },
+  };
   const [query, updateQuery, resetQuery] = useQuery({
     page: 1,
     limit: 5,
   });
   const { data, extraInfo } = useFetchList(pathname, query);
   const totalPages = extraInfo.totalPages || 1;
-
   const handlePageChange = (newpage: number) => {
     updateQuery({ page: newpage });
   };
@@ -35,7 +38,7 @@ const CategoriesDashboard = () => {
   return (
     <>
       <div className="flex justify-center">
-        <h2 className="text-lg font-bold mb-4">THỂ LOẠI</h2>
+        <h2 className="text-lg font-bold mb-4">TÁC GIẢ</h2>
       </div>
       <ModalAddNew
         query={query}
@@ -47,7 +50,7 @@ const CategoriesDashboard = () => {
         <div className="col-span-2">
           <input
             type="text"
-            placeholder="Tìm kiếm thể loại..."
+            placeholder="Tìm kiếm tác giả..."
             className="w-full border p-2 rounded"
           />
         </div>
@@ -67,8 +70,9 @@ const CategoriesDashboard = () => {
           </SelectContent>
         </Select>
       </div>
-
-      <DataTable columns={columns} data={data}></DataTable>
+      <div>
+        <DataTable columns={columns} data={data}></DataTable>
+      </div>
 
       <Pagination
         currentPage={query.page}
@@ -79,4 +83,4 @@ const CategoriesDashboard = () => {
   );
 };
 
-export default CategoriesDashboard;
+export default AuthorsDashboard;

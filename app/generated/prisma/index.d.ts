@@ -4929,7 +4929,7 @@ export namespace Prisma {
     id: number
     title: string
     description: string
-    image: string
+    image: string | null
     keywords: string
     status: string
     price: Decimal
@@ -5026,7 +5026,7 @@ export namespace Prisma {
       id: number
       title: string
       description: string
-      image: string
+      image: string | null
       keywords: string
       status: string
       price: Prisma.Decimal
@@ -21571,6 +21571,14 @@ export namespace Prisma {
   export type AuthorsOrderByRelevanceFieldEnum = (typeof AuthorsOrderByRelevanceFieldEnum)[keyof typeof AuthorsOrderByRelevanceFieldEnum]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   export const ComicsOrderByRelevanceFieldEnum: {
     title: 'title',
     description: 'description',
@@ -21630,14 +21638,6 @@ export namespace Prisma {
   };
 
   export type ErrorsOrderByRelevanceFieldEnum = (typeof ErrorsOrderByRelevanceFieldEnum)[keyof typeof ErrorsOrderByRelevanceFieldEnum]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   export const CommentsOrderByRelevanceFieldEnum: {
@@ -21815,7 +21815,7 @@ export namespace Prisma {
     id?: IntFilter<"Comics"> | number
     title?: StringFilter<"Comics"> | string
     description?: StringFilter<"Comics"> | string
-    image?: StringFilter<"Comics"> | string
+    image?: StringNullableFilter<"Comics"> | string | null
     keywords?: StringFilter<"Comics"> | string
     status?: StringFilter<"Comics"> | string
     price?: DecimalFilter<"Comics"> | Decimal | DecimalJsLike | number | string
@@ -21837,7 +21837,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     keywords?: SortOrder
     status?: SortOrder
     price?: SortOrder
@@ -21863,7 +21863,7 @@ export namespace Prisma {
     OR?: ComicsWhereInput[]
     NOT?: ComicsWhereInput | ComicsWhereInput[]
     description?: StringFilter<"Comics"> | string
-    image?: StringFilter<"Comics"> | string
+    image?: StringNullableFilter<"Comics"> | string | null
     keywords?: StringFilter<"Comics"> | string
     status?: StringFilter<"Comics"> | string
     price?: DecimalFilter<"Comics"> | Decimal | DecimalJsLike | number | string
@@ -21885,7 +21885,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     keywords?: SortOrder
     status?: SortOrder
     price?: SortOrder
@@ -21906,7 +21906,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Comics"> | number
     title?: StringWithAggregatesFilter<"Comics"> | string
     description?: StringWithAggregatesFilter<"Comics"> | string
-    image?: StringWithAggregatesFilter<"Comics"> | string
+    image?: StringNullableWithAggregatesFilter<"Comics"> | string | null
     keywords?: StringWithAggregatesFilter<"Comics"> | string
     status?: StringWithAggregatesFilter<"Comics"> | string
     price?: DecimalWithAggregatesFilter<"Comics"> | Decimal | DecimalJsLike | number | string
@@ -23003,7 +23003,7 @@ export namespace Prisma {
   export type ComicsCreateInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -23024,7 +23024,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -23044,7 +23044,7 @@ export namespace Prisma {
   export type ComicsUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23065,7 +23065,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23086,7 +23086,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -23098,7 +23098,7 @@ export namespace Prisma {
   export type ComicsUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23110,7 +23110,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -24166,6 +24166,21 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -24239,6 +24254,11 @@ export namespace Prisma {
   export type UsersScalarRelationFilter = {
     is?: UsersWhereInput
     isNot?: UsersWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type CategoriesOrderByRelationAggregateInput = {
@@ -24328,6 +24348,24 @@ export namespace Prisma {
     id?: SortOrder
     price?: SortOrder
     userId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -24851,11 +24889,6 @@ export namespace Prisma {
   export type ChaptersNullableScalarRelationFilter = {
     is?: ChaptersWhereInput | null
     isNot?: ChaptersWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type CommentsOrderByRelevanceInput = {
@@ -25386,6 +25419,10 @@ export namespace Prisma {
     connectOrCreate?: Unlock_comicCreateOrConnectWithoutComicInput | Unlock_comicCreateOrConnectWithoutComicInput[]
     createMany?: Unlock_comicCreateManyComicInputEnvelope
     connect?: Unlock_comicWhereUniqueInput | Unlock_comicWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -27091,6 +27128,21 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -27111,6 +27163,35 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -27172,17 +27253,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -27213,7 +27283,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutCategoriesInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27233,7 +27303,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27277,7 +27347,7 @@ export namespace Prisma {
     id?: IntFilter<"Comics"> | number
     title?: StringFilter<"Comics"> | string
     description?: StringFilter<"Comics"> | string
-    image?: StringFilter<"Comics"> | string
+    image?: StringNullableFilter<"Comics"> | string | null
     keywords?: StringFilter<"Comics"> | string
     status?: StringFilter<"Comics"> | string
     price?: DecimalFilter<"Comics"> | Decimal | DecimalJsLike | number | string
@@ -27289,7 +27359,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutAuthorsInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27309,7 +27379,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27840,7 +27910,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutVolumesInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27860,7 +27930,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -27956,7 +28026,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutVolumesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -27976,7 +28046,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -28371,7 +28441,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutUserInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -28391,7 +28461,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -28933,7 +29003,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutFavoritesInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -28953,7 +29023,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29042,7 +29112,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutFavoritesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29062,7 +29132,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29129,7 +29199,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutRatesInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29149,7 +29219,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29238,7 +29308,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutRatesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29258,7 +29328,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29501,7 +29571,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutViewsInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29521,7 +29591,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29644,7 +29714,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutViewsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29664,7 +29734,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29805,7 +29875,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutCommentInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29825,7 +29895,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -29979,7 +30049,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutCommentInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -29999,7 +30069,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30551,7 +30621,7 @@ export namespace Prisma {
   export type ComicsCreateWithoutUnlock_comicInput = {
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -30571,7 +30641,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -30686,7 +30756,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutUnlock_comicInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30706,7 +30776,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31209,7 +31279,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutCategoriesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31229,7 +31299,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31249,7 +31319,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31261,7 +31331,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutAuthorsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31281,7 +31351,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31301,7 +31371,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31758,7 +31828,7 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    image: string
+    image?: string | null
     keywords: string
     status: string
     price: Decimal | DecimalJsLike | number | string
@@ -31829,7 +31899,7 @@ export namespace Prisma {
   export type ComicsUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31849,7 +31919,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31869,7 +31939,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string

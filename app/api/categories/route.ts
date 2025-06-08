@@ -3,12 +3,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
-  const categories = await prisma.categories.findMany({});
+  const url = req.nextUrl.searchParams;
+  const limit: number = Number(url.get("limit")) || 10;
+  const page: number = Number(url.get("page")) || 1;
+  const totalRecords: number = await prisma.categories.count();
+  const totalPages = Math.ceil(totalRecords / limit);
 
-  return NextResponse.json({ categories }, { status: 200, statusText: "OK" });
+  const categories = await prisma.categories.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+
+  return NextResponse.json(
+    {
+      data: categories,
+      extraInfo: {
+        totalPages,
+      },
+    },
+    { status: 200, statusText: "OK" }
+  );
 }
 
-const cateSchema = z.object({
+export const cateSchema = z.object({
   title: z.string().min(1).max(50),
 });
 
@@ -60,14 +77,14 @@ export async function POST(req: NextRequest) {
 //   }
 // }
 
-export async function DELETE(params: NextRequest) {
-  try {
-    const deleteCategories = await prisma.categories.deleteMany();
-    return NextResponse.json(deleteCategories, {
-      status: 200,
-      statusText: "ok",
-    });
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 400, statusText: "Bad req" });
-  }
-}
+// export async function DELETE(params: NextRequest) {
+//   try {
+//     const deleteCategories = await prisma.categories.deleteMany();
+//     return NextResponse.json(deleteCategories, {
+//       status: 200,
+//       statusText: "ok",
+//     });
+//   } catch (error) {
+//     return NextResponse.json({ error }, { status: 400, statusText: "Bad req" });
+//   }
+// }

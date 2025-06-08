@@ -281,6 +281,11 @@ exports.Prisma.AuthorsOrderByRelevanceFieldEnum = {
   keywords: 'keywords'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.ComicsOrderByRelevanceFieldEnum = {
   title: 'title',
   description: 'description',
@@ -319,11 +324,6 @@ exports.Prisma.RatesOrderByRelevanceFieldEnum = {
 exports.Prisma.ErrorsOrderByRelevanceFieldEnum = {
   content: 'content',
   status: 'status'
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
 };
 
 exports.Prisma.CommentsOrderByRelevanceFieldEnum = {

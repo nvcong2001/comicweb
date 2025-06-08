@@ -6,13 +6,15 @@ import {
   ChartPie,
   LibraryBig,
   ListCollapse,
+  LogOut,
+  Settings,
 } from "lucide-react";
 
 type SidebarMenuItem = {
   title: string;
   icon: React.ElementType;
   href?: string;
-  children?: [] | any[];
+  children?: SidebarMenuItem[];
   isActive?: boolean;
 };
 
@@ -29,7 +31,7 @@ export const menuItems: SidebarMenuItem[] = [
     ],
   },
   {
-    title: "Thống kê",
+    title: "Phân tích",
     icon: ChartPie,
     children: [
       { title: "TK loai nha", icon: BookType, href: "/dashboard/categories" },
@@ -38,4 +40,6 @@ export const menuItems: SidebarMenuItem[] = [
       { title: "TK Tác giả", icon: BookA, href: "/dashboard/authors" },
     ],
   },
+  { title: "Cài đặt", icon: Settings, href: "/dashboard/settings" },
+  { title: "Đăng xuất", icon: LogOut, href: "/dashboard/logout" },
 ];
