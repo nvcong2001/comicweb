@@ -3,11 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
-  const authors = await prisma.authors.findMany();
-  return NextResponse.json({ authors }, { status: 200, statusText: "OK" });
+  const url = req.nextUrl.searchParams;
+  const limit: number = Number(url.get("limit")) || 10;
+  const page: number = Number(url.get("page")) || 1;
+  const totalRecords: number = await prisma.authors.count();
+  const totalPages = Math.ceil(totalRecords / limit);
+  const authors = await prisma.authors.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  return NextResponse.json(
+    {
+      data: authors,
+      extraInfo: { totalPages },
+    },
+    { status: 200 }
+  );
 }
 
-const authorSchema = z.object({
+export const authorSchema = z.object({
   name: z.string().min(1).max(50),
   description: z.string().max(500),
   keywords: z.string().min(1).max(40),

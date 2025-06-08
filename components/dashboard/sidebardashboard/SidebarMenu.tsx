@@ -3,9 +3,9 @@ import { menuItems } from "./menu.items.config";
 import SidebarMenuAccordionItem from "./SidebarMenuAccordionItem";
 import SidebarMenuItem from "./SidebarMenuItem";
 
-const SidebarMenu = () => {
+const SidebarMenu = ({ isOpen }: { isOpen: boolean }) => {
   return (
-    <div className="min-w-[200px]">
+    <div className="bg-neutral-700 md:h-screen md:rounded-none p-3 rounded">
       {menuItems.map((item) =>
         item.children ? (
           <SidebarMenuAccordionItem

@@ -32,7 +32,7 @@ model Comics {
   id           Int            @id @default(autoincrement())
   title        String         @unique
   description  String
-  image        String
+  image        String?
   keywords     String
   status       String
   price        Decimal

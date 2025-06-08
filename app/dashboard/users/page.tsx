@@ -1,97 +1,63 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DataTable from "@/components/datatable/DataTable";
-import { columns, User } from "@/components/datatable/users/Column";
+import { columns } from "@/components/datatable/users/Column";
 import Pagination from "@/components/Pagination";
+import useQuery from "@/app/hooks/useQuery";
+import useFetchList from "@/app/hooks/useFetchData";
 
 const UsersDashboard = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [rowsPerPage, setRowsPerPage] = useState<number | "all">(5);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/users");
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      setUsers(data.users);
-    } catch (err: any) {
-      setError(err.message || "Có lỗi xảy ra");
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  if (loading) {
-    return <div>Đang tải ...</div>;
-  }
-  if (error) {
-    return <div>{error}</div>;
-  }
-  // Tính toán các giá trị cho pagination
-  const totalPages =
-    rowsPerPage === "all"
-      ? 1
-      : Math.ceil(users.length / (rowsPerPage as number));
-  const startIndex =
-    rowsPerPage === "all" ? 0 : (currentPage - 1) * (rowsPerPage as number);
-  const endIndex =
-    rowsPerPage === "all"
-      ? users.length
-      : Math.min(startIndex + (rowsPerPage as number), users.length);
-  const currentData = users.slice(startIndex, endIndex);
+  const [query, updateQuery, resetQuery] = useQuery({
+    page: 1,
+    limit: 5,
+  });
+  const { data, extraInfo } = useFetchList("/users", query);
+  const totalPages = extraInfo.totalPages || 1;
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    updateQuery({ page: page });
   };
-  const handleRowsPerPageChange = (value: number | "all") => {
-    setRowsPerPage(value);
-    setCurrentPage(1);
+  const handleRowsPerPageChange = (value: string) => {
+    resetQuery();
+    updateQuery({ limit: Number(value) });
   };
 
   return (
-    <div>
-      <div>
+    <div className="text-neutral-200">
+      <div className="flex justify-center">
         <h2 className="text-lg font-bold mb-4">NGƯỜI DÙNG</h2>
       </div>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="">
+      <div className="grid grid-cols-4 gap-4 mb-4">
+        <button className="border py-2 rounded col-start-4">Add</button>
+      </div>
+      <div className="grid grid-cols-4 gap-4 mb-4">
+        <div className="col-span-2">
           <input
             type="text"
             placeholder="Tìm kiếm người dùng..."
             className="w-full border p-2 rounded"
           />
         </div>
-        <div className="w-full flex gap-4">
-          <button className="border p-2 rounded w-1/2">Add</button>
+        <div className="col-start-4">
           <select
-            className="border p-2 rounded w-1/2 text-center"
-            onChange={(e) =>
-              handleRowsPerPageChange(
-                e.target.value === "all" ? "all" : Number(e.target.value)
-              )
-            }
-            value={
-              rowsPerPage === users.length ? "all" : rowsPerPage.toString()
-            }
+            className="border p-2 rounded w-full text-center"
+            onChange={(e) => handleRowsPerPageChange(e.target.value)}
+            value={query.limit.toString()}
           >
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="all">All</option>
+            {[5, 10, 20, 50, 100].map((value) => (
+              <option key={value} className="text-black" value={value}>
+                {value}
+              </option>
+            ))}
           </select>
         </div>
       </div>
-      <DataTable columns={columns} data={currentData}></DataTable>
+      <div>
+        <DataTable columns={columns} data={data}></DataTable>
+      </div>
+
       <Pagination
-        currentPage={currentPage}
+        currentPage={query.page}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />

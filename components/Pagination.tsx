@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "./ui/button";
 
 interface PaginationProps {
   currentPage: number;
@@ -14,36 +15,37 @@ const Pagination = ({
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="text-end mt-4">
-      <button
-        onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
+    <div className="flex items-center justify-end space-x-2 py-4">
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 border rounded disabled:opacity-50"
       >
-        Trước
-      </button>
-
+        Previous
+      </Button>
       {pageNumbers.map((number) => (
         <button
           key={number}
           onClick={() => onPageChange(number)}
           className={`px-3 py-1 border rounded ${
             currentPage === number
-              ? "bg-blue-500 text-white"
-              : "hover:bg-gray-100"
+              ? "bg-primary text-white"
+              : "hover:bg-primary/40"
           }`}
         >
           {number}
         </button>
       ))}
 
-      <button
-        onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 border rounded disabled:opacity-50"
       >
-        Sau
-      </button>
+        Next
+      </Button>
     </div>
   );
 };

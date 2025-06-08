@@ -3,8 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
-  const users = await prisma.users.findMany();
-  return NextResponse.json({ users }, { status: 200, statusText: "OK" });
+  const url = req.nextUrl.searchParams;
+  const limit: number = Number(url.get("limit")) || 10;
+  const page: number = Number(url.get("page")) || 1;
+  const totalRecords: number = await prisma.users.count();
+  const totalPages = Math.ceil(totalRecords / limit);
+  const users = await prisma.users.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  return NextResponse.json(
+    { data: users, extraInfo: { totalPages } },
+    { status: 200, statusText: "OK" }
+  );
 }
 
 const userSchema = z.object({

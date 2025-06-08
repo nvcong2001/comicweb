@@ -3,8 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
-  const comics = await prisma.comics.findMany({});
-  return NextResponse.json({ comics }, { status: 200, statusText: "OK" });
+  const url = req.nextUrl.searchParams;
+  const limit: number = Number(url.get("limit")) || 10;
+  const page: number = Number(url.get("page")) || 1;
+  const totalRecords: number = await prisma.comics.count();
+  const totalPages = Math.ceil(totalRecords / limit);
+  const comics = await prisma.comics.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  return NextResponse.json(
+    { data: comics, extraInfo: { totalPages } },
+    { status: 200, statusText: "OK" }
+  );
 }
 
 const comicSchema = z.object({
@@ -15,6 +26,7 @@ const comicSchema = z.object({
   status: z.string().min(1).max(100),
   price: z.number().positive(),
   userId: z.number(),
+  categoryIds: z.array(z.number()).min(1),
 });
 
 export async function POST(req: NextRequest) {
@@ -27,9 +39,16 @@ export async function POST(req: NextRequest) {
       { status: 400, statusText: "Bad Req" }
     );
   }
-
-  const { title, description, image, keywords, status, price, userId } =
-    checkValidation.data;
+  const {
+    title,
+    description,
+    image,
+    keywords,
+    status,
+    price,
+    userId,
+    categoryIds,
+  } = checkValidation.data;
 
   try {
     const comics = await prisma.comics.create({
@@ -41,6 +60,18 @@ export async function POST(req: NextRequest) {
         status,
         price,
         user: { connect: { id: userId } },
+        categories: {
+          connect: categoryIds.map((id) => ({ id })),
+        },
+      },
+      include: {
+        categories: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
     return NextResponse.json(comics, { status: 201, statusText: "Created" });

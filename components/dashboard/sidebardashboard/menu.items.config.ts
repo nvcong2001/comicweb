@@ -31,7 +31,7 @@ export const menuItems: SidebarMenuItem[] = [
     ],
   },
   {
-    title: "Thống kê",
+    title: "Phân tích",
     icon: ChartPie,
     children: [
       { title: "TK loai nha", icon: BookType, href: "/dashboard/categories" },
